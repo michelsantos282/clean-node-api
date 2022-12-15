@@ -36,4 +36,21 @@ describe('SignUp Controller', () => {
     // Para comparar objetos devemos usar toEqual
     expect(httpResponse.body).toEqual(new MissingParamError('email'))
   })
+  test('Should Return 400 if no password is provided', () => {
+    // System under test ( Classe sendo testada)
+    const sut = new SignUpController()
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        passwordConfirmation: 'any_password'
+      }
+    }
+
+    const httpResponse = sut.handle(httpRequest)
+
+    expect(httpResponse.statusCode).toBe(400)
+    // Para comparar objetos devemos usar toEqual
+    expect(httpResponse.body).toEqual(new MissingParamError('password'))
+  })
 })
