@@ -124,6 +124,24 @@ describe('SignUp Controller', () => {
     // Para comparar objetos devemos usar toEqual
     expect(httpResponse.body).toEqual(new InvalidParamError('email'))
   })
+  test('Should Return 400 if password confirmation failed', () => {
+    // System under test ( Classe sendo testada)
+    const { sut } = makeSut()
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        password: 'any_password',
+        passwordConfirmation: 'invalid_password'
+      }
+    }
+
+    const httpResponse = sut.handle(httpRequest)
+
+    expect(httpResponse.statusCode).toBe(400)
+    // Para comparar objetos devemos usar toEqual
+    expect(httpResponse.body).toEqual(new InvalidParamError('passwordConfirmation'))
+  })
   test('Should call email validator with correct email', () => {
     // System under test ( Classe sendo testada)
     const { sut, emailValidatorStub } = makeSut()
